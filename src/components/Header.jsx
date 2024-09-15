@@ -1,6 +1,6 @@
 import NavLink from "./NavLink";
 
-const navLink = [
+const navLinks = [
   {
     id: 1,
     children: "خانه",
@@ -20,7 +20,7 @@ const Header = () => {
       <nav className="container xl:max-w-screen-xl">
         <ul className="flex justify-between text-secondary-400 gap-x-2">
           <div className="flex  gap-x-8">
-            {navLink.map((item) => {
+            {navLinks.map((item) => {
               return (
                 <li key={item.id}>
                   <NavLink path={item.path}>{item.children}</NavLink>
@@ -28,12 +28,13 @@ const Header = () => {
               );
             })}
           </div>
-
-          {user ? (
-            <NavLink path="/profile">پروفایل</NavLink>
-          ) : (
-            <NavLink path="/signin">ورود</NavLink>
-          )}
+          <li>
+            {user ? (
+              <NavLink path="/profile">پروفایل</NavLink>
+            ) : (
+              <NavLink path="/signin">ورود</NavLink>
+            )}
+          </li>
         </ul>
       </nav>
     </header>
