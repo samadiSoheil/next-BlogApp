@@ -1,9 +1,11 @@
 "use client";
+
 import { loginUserAPI } from "@/services/auth/login";
 import { signupUserAPI } from "@/services/auth/signup";
 import toast from "react-hot-toast";
 import { createContext, useContext, useEffect, useReducer } from "react";
 import { getUserAPI } from "@/services/auth/getUser";
+import { useRouter } from "next/navigation";
 
 const AuthContext = createContext();
 const initialState = {
@@ -32,6 +34,7 @@ const authReducer = (state, action) => {
 };
 
 const AuthContextProvider = ({ children }) => {
+  const route = useRouter();
   const [{ user, isLoading, isAuthenticated }, dispatch] = useReducer(
     authReducer,
     initialState
@@ -45,6 +48,7 @@ const AuthContextProvider = ({ children }) => {
       if (statusCode === 200) {
         dispatch({ type: "signup", payload: data.user });
         toast.success(data?.message);
+        route.push("/login");
       }
     } catch (err) {
       dispatch({ type: "error", payload: err.response?.data?.message });
@@ -60,6 +64,7 @@ const AuthContextProvider = ({ children }) => {
       if (statusCode === 200) {
         dispatch({ type: "login", payload: data.user });
         toast.success(data?.message);
+        route.push("/profile");
       }
     } catch (err) {
       dispatch({ type: "error", payload: err.response?.data?.message });
@@ -67,16 +72,14 @@ const AuthContextProvider = ({ children }) => {
     }
   };
 
-  //   LOGIN USER
+  //   GET SINGEL USER
   const getUser = async () => {
     dispatch({ type: "loading" });
     try {
       const { user } = await getUserAPI();
       dispatch({ type: "user/loaded", payload: user });
-      console.log("firstLoad data ==============> ", user);
     } catch (err) {
       dispatch({ type: "error", payload: err.response?.data?.message });
-      toast.error(err.response?.data?.message);
     }
   };
 
