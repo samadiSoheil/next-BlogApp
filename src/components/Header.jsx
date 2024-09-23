@@ -1,3 +1,5 @@
+"use client";
+import useAuth from "@/context/AuthContextProvider";
 import NavLink from "./NavLink";
 
 const navLinks = [
@@ -14,9 +16,13 @@ const navLinks = [
 ];
 
 const Header = () => {
-  const user = false;
+  const { user, isLoading } = useAuth();
   return (
-    <header className="sticky top-0 bg-secondary-0 py-5 border-b border-b-secondary-300 transition-all duration-200 shadow-sm z-20">
+    <header
+      className={`sticky top-0 bg-secondary-0 py-5 border-b border-b-secondary-100 transition-all duration-200 shadow-sm z-20 ${
+        isLoading ? "blur-sm opacity-70" : "blur-0 opacity-100"
+      }`}
+    >
       <nav className="container xl:max-w-screen-xl">
         <ul className="flex justify-between text-secondary-400 gap-x-2">
           <div className="flex  gap-x-8">
@@ -32,7 +38,7 @@ const Header = () => {
             {user ? (
               <NavLink path="/profile">پروفایل</NavLink>
             ) : (
-              <NavLink path="/signin">ورود</NavLink>
+              <NavLink path="/login">ورود</NavLink>
             )}
           </li>
         </ul>
