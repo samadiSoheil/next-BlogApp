@@ -15,9 +15,9 @@ const LoginUser = () => {
     formState: { errors, isLoading },
   } = useForm();
 
-  // const { loginUser } = useAuth();
+  const { loginUser } = useAuth();
   const onLoginHandler = async (userData) => {
-    // await loginUser(userData);
+    await loginUser(userData);
   };
   return (
     <>
