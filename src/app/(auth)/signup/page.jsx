@@ -13,9 +13,9 @@ const SignupPage = () => {
     formState: { errors, isLoading },
   } = useForm();
 
-  // const { signupUser } = useAuth();
+  const { signupUser } = useAuth();
   const onSigninHandler = async (formData) => {
-    // await signupUser(formData);
+    await signupUser(formData);
   };
 
   return (
