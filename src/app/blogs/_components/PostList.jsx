@@ -3,9 +3,13 @@ import Link from "next/link";
 import PostImg from "./PostImg";
 import Author from "./Author";
 import PostInteraction from "./PostInteraction";
+import { cookies } from "next/headers";
+import setCookieOnReq from "@/utils/setCookieOnReq";
 
 const PostList = async () => {
-  let result = await fetch(`${process.env.NEXT_PUBLIC_BACE_URL}/post/list`);
+  const cookieStore = cookies();
+  const options = setCookieOnReq(cookieStore);
+  let result = await fetch(`${process.env.NEXT_PUBLIC_BACE_URL}/post/list`, options);
   let {
     data: { posts },
   } = await result.json();
