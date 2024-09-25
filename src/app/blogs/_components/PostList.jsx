@@ -3,20 +3,13 @@ import Link from "next/link";
 import PostImg from "./PostImg";
 import Author from "./Author";
 import PostInteraction from "./PostInteraction";
-import { cookies } from "next/headers";
-import setCookieOnReq from "@/utils/setCookieOnReq";
 
-const PostList = async () => {
-  const cookieStore = cookies();
-  const options = setCookieOnReq(cookieStore);
-  let result = await fetch(`${process.env.NEXT_PUBLIC_BACE_URL}/post/list`, options);
-  let {
-    data: { posts },
-  } = await result.json();
+const PostList = async ({ postsArr = [] }) => {
+  if (!postsArr.length) return null;
 
-  return posts.length > 0 ? (
+  return postsArr.length > 0 ? (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {posts.map((item) => {
+      {postsArr.map((item) => {
         return (
           <div className="border border-secondary-300 p-3 rounded-lg bg-secondary-0">
             <PostImg {...item} />
