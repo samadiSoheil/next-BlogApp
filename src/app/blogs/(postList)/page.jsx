@@ -1,12 +1,18 @@
 import { Suspense } from "react";
 import PostList from "../_components/PostList";
 import Spinner from "@/ui/Spinner";
+import queryString from "query-string";
+import useGetPostsServerReq from "@/hooks/useGetPostsServerReq";
 
 export const metadata = {
   title: "وبلاگ",
 };
 
-const blogPage = () => {
+const blogPage = async ({ searchParams }) => {
+  const newSearchParams = queryString.stringify(searchParams);
+
+  const posts = await useGetPostsServerReq({ newSearchParams });
+
   return (
     <>
       <h1>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ</h1>
@@ -22,7 +28,7 @@ const blogPage = () => {
         دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
       </p>
       <Suspense fallback={<Spinner />}>
-        <PostList />
+        {!posts.length ? <p>پستی یافت نشد...</p> : <PostList postsArr={posts} />}
       </Suspense>
     </>
   );
